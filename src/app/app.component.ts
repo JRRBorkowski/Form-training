@@ -1,5 +1,5 @@
 import { Component, OnInit, VERSION } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'my-app',
@@ -10,10 +10,16 @@ export class AppComponent implements OnInit {
   name = 'Angular ' + VERSION.major;
 
   shopForm = this.builder.group({
-    storeName: this.builder.control(''),
-    industry: this.builder.control(''),
+    storeName: this.builder.control('', {
+      validators: [Validators.required],
+    }),
+    industry: this.builder.control('', {
+      validators: [Validators.required],
+    }),
     isRegistered: this.builder.control(false),
-    companyName: this.builder.control(''),
+    companyName: this.builder.control('', {
+      validators: [Validators.required],
+    }),
     vat: this.builder.control(''),
 
     location: this.builder.group({
@@ -21,10 +27,18 @@ export class AppComponent implements OnInit {
       zipCode: this.builder.control(''),
       city: this.builder.control(''),
       country: this.builder.control(''),
+    },{
+      validator: Validators.required
     }),
   });
 
   submitForm() {
+    this.shopForm.markAllAsTouched();
+
+    if (this.shopForm.invalid) {
+      return;
+    }
+    // handle...
     console.log(this.shopForm.value);
   }
 
