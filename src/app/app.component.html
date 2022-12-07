@@ -8,17 +8,18 @@
   <input placeholder="Industry" formControlName="industry" />
   <p>
     <input type="checkbox" formControlName="isRegistered" />
-    This store is registered sex offender
+    This store is registered offender
   </p>
-  <input placeholder="Company Legal Name" formControlName="companyName" />
-  <input placeholder="VAT EU Number" formControlName="vat" />
-
-  <div formGroupName="location">
-    <input placeholder="Address" formControlName="adress" />
-    <input placeholder="ZIP code" formControlName="zipCode" />
-    <input placeholder="City" formControlName="city" />
-    <input placeholder="Country" formControlName="country" />
-  </div>
+  <ng-container *ngIf="shopForm.controls.isRegistered.value === true">
+    <div formGroupName="location">
+      <input placeholder="Company Legal Name" formControlName="companyName" />
+      <input placeholder="VAT EU Number" formControlName="vat" />
+      <input placeholder="Address" formControlName="adress" />
+      <input placeholder="ZIP code" formControlName="zipCode" />
+      <input placeholder="City" formControlName="city" />
+      <input placeholder="Country" formControlName="country" />
+    </div>
+  </ng-container>
 
   <a>Go back</a>
   <button>Save and continue</button>
