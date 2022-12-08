@@ -34,17 +34,6 @@ export class AppComponent implements OnInit {
     }),
   });
 
-  // onRegisterCheck() {
-  //   console.log(this.shopForm.get('isRegistered').value);
-  //   if (this.shopForm.get('isRegistered').value === true) {
-  //     this.shopForm.get('location').addValidators(Validators.required);
-  //     this.shopForm.get('location').updateValueAndValidity();
-  //   } else {
-  //     this.shopForm.get('location').clearValidators();
-  //     this.shopForm.get('location').updateValueAndValidity();
-  //   }
-  // }
-
   submitForm() {
     this.shopForm.markAllAsTouched();
 
@@ -56,23 +45,25 @@ export class AppComponent implements OnInit {
   }
 
   constructor(private builder: FormBuilder) {
-    this.shopForm.controls.isRegistered.valueChanges.forEach(
-      this.onRegisterCheck
+    this.shopForm.controls.isRegistered.valueChanges.subscribe(
+      check => {
+        this.onRegisterCheck(check)
+      }
     );
   }
 
   ngOnInit() {
-    this.onRegisterCheck();
+    this.onRegisterCheck(false);
   }
 
-  onRegisterCheck() {
-    this.isRegistered = this.shopForm.get('isRegistered').value;
-    console.log(this.isRegistered);
+  onRegisterCheck(check) {
+    this.isRegistered = check
+    console.log("checked", this.isRegistered);
     if (this.isRegistered === true) {
-      this.shopForm.get('location').addValidators(Validators.required);
+      this.shopForm.get('location.vat').addValidators([Validators.required]);
       this.shopForm.get('location').updateValueAndValidity();
     } else {
-      this.shopForm.get('location').clearValidators();
+      this.shopForm.get('location.vat').clearValidators();
       this.shopForm.get('location').updateValueAndValidity();
     }
   }
